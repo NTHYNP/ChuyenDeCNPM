@@ -1,190 +1,232 @@
-<script></script>
+<script>
+    import axios from 'axios';
 
-<template>
-  <div id="home">
-    <div id="login-form">
-      <div class="login-form-header">
-        <span class="title-header">Đăng ký</span>
-        <span style="position: absolute; top: 19px; right: 19px">X</span>
-      </div>
-      <div id="login-body">
-        <div class="label-input">Tên đăng nhập</div>
-        <input type="text" />
-        <div
-          style="
-            margin-top: 40px;
-            display: flex;
-            justify-content: space-between;
-            width: 462px;
-          "
-        >
-          <span class="label-input">Mật khẩu</span
-          ><span
-            ><a href="google.com" id="forgot-password">Quên mật khẩu?</a></span
-          >
+    export default {
+        name: "App",
+        data() {
+            return {
+                fullname: "",
+                name: "",
+                password: "",
+                repeatPass: "",
+                email: ""
+            }
+        },
+        methods: {
+            async register() {
+                if (this.password === this.repeatPass) {
+                    axios.post(`http://localhost:3000/resgister`,{
+                        fullname: this.fullname,
+                        name: this.name,
+                         password: this.password,
+                         email: this.email
+                    })
+                  .then(response => {
+                     if(response.data.status === 200){
+                        alert("Đăng kí thành công")
+                        this.$router.replace({ path: "/login"});
+                  }else{
+                    alert(response.data.message);
+                 }
+                 })
+             .catch(e => {
+               this.errors.push(e)
+                 })
+                }else{
+                    alert("Nhập lại mật khẩu không đúng")
+                }
+            }
+        }
+    };
+</script>
+
+<template scoped>
+    <body>
+    <div id="home">
+        <div id="login-form">
+            <div class="login-container">
+                <h3>Đăng ký tài khoản mới miễn phí</h3>
+                <div class="login-form">
+                    <div class="input">
+                        <label for="">Họ và tên</label>
+                        <input class="data-input" type="text" v-model="fullname" placeholder="Nhập họ và tên của bạn"/>
+
+                        <label for="">Tên đăng nhập</label>
+                        <input class="data-input" type="text" v-model="name" placeholder="Nhập tên đăng nhạp của bạn"/>
+
+                        <label for="">Mật khẩu</label>
+                        <input class="data-input" type="password" v-model="password" placeholder="Nhập họ và tên của bạn"/>
+
+                        <label for="">Nhập lại mật khẩu</label>
+                        <input class="data-input" type="password" v-model="repeatPass" placeholder="Nhập họ và tên của bạn"/>
+
+                        <label for="">Email</label>
+                        <input class="data-input" type="email" v-model="email" placeholder="Nhập họ và tên của bạn"/>
+
+                        <input type="checkbox" name="" id=""/>
+                        <span style="color: var(--main--text, #002352);">Tôi đồng ý với các <a href="#"
+                                style="color: var(--Link, #1890ff);">điều kiện và điều khoản</a></span>
+
+
+                         <div @click="register()" class="login-button">Đăng ký</div>
+                            <div style="text-align: center; margin-bottom: 10px;">hoặc</div>
+
+                         <div class="icon">
+                            <a href="#"><img src="../img/img1.png" alt=""></a>
+                            <a href="#"><img src="../img/img2.png" alt=""></a>
+                            <a href="#"><img src="../img/img3.png" alt=""></a>
+                         </div>
+                         <div class="footer">
+                            <span>Bạn đã có tài khoản rồi? <a href="#"><router-link to="/login">Đăng nhập</router-link> </a></span>
+                         </div>
+
+                    </div>
+                    
+                    
+                </div>
+            </div>
         </div>
-        <input type="password" />
-        
-
-
-
-        <div class="login-button">Đăng nhập</div>
-        <p class="login-with">hoặc đăng nhập bằng</p>
-        <div
-          style="
-            display: flex;
-            justify-content: space-around;
-            padding-top: 10px;
-          "
-        >
-          <span class="otherway"
-            ><i
-              class="fa fa-brands fa-facebook"
-              style="font-size: 16px; padding-right: 5px"
-            ></i
-            >Facebook</span
-          >
-          <span class="otherway"
-            ><i
-              class="fa fa-brands fa-google"
-              style="font-size: 16px; padding-right: 5px"
-            ></i
-            >Google</span
-          >
-        </div>
-        <p class="footer">
-          Bạn đã có tài khoản? <router-link to="/login">Đăng nhập ngay!</router-link>
-        </p>
-      </div>
     </div>
-  </div>
+</body>
 </template>
 
-<style>
-body {
-  background: #f0f2f5;
-  display: flex;
-  /* width: 1440px; */
-  padding: 156px 420px 279px 420px;
-  justify-content: center;
-  align-items: center;
-}
 
-#login-form {
-  width: 600px;
-  height: 589px;
-  border-radius: 14px;
-  background: var(--light-greyscale-greyscale-200, #fff);
-  box-shadow: 0px 12px 40px 0px rgba(0, 0, 0, 0.16);
-}
 
-.login-form-header {
-  position: relative;
-  max-height: 58.264px;
-  border-bottom: 1px solid #f7f7f7;
-  padding: 16px 240px 18.26px 240px;
-}
 
-.title-header {
-  padding-top: 16px;
-  color: var(--light-greyscale-greyscale-900, #000);
-  font-family: Roboto;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 24px; /* 133.333% */
-  text-transform: uppercase;
-}
 
-#login-body {
-  padding: 36.74px 80px 0px 80px;
-}
+<style scoped>
+  body {
+            background: #f0f2f5;
+            display: flex;
+            /* width: 1440px; */
+            padding: 50px 420px 279px 420px;
+            justify-content: center;
+            align-items: center;
+        }
 
-.label-input {
-  color: var(--light-greyscale-greyscale-900, #000);
-  font-family: Roboto;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 22px; /* 137.5% */
-}
+        #login-form {
+            display: block;
+            width: 500px;
+            height: 800px;
+            border-radius: 14px;
+            background: var(--light-greyscale-greyscale-200, #fff);
+            box-shadow: 0px 12px 40px 0px rgba(0, 0, 0, 0.16);
+            /* position: relative; */
+        }
 
-#login-body input {
-  display: flex;
-  width: 440px;
-  height: 22px;
-  padding: 16px 15px;
-  align-items: flex-start;
-  gap: 10px;
-  flex-shrink: 0;
-  border-radius: 8px;
-  background: #f7f7f7;
-  border: 0px;
-}
+        .login-container {
+            /* border: #000 solid 1px; */
+            width: 95%;
+            height: 95%;
+            padding: 10px;
+        }
 
-#forgot-password {
-  color: var(--dark-other-link-500, #2f80ed);
-  text-align: right;
-  font-family: Roboto;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 22px; /* 137.5% */
-}
+        .login-form {
+            display: block;
+            width: 100%;
+            height: 90%;
+            position: relative;
 
-.login-button {
-  margin-top: 40px;
-  display: flex;
-  width: 440px;
-  height: 20px;
-  padding: 15px 15px;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-  border-radius: 40px;
-  background: var(--Green, #00bf6f);
-  box-shadow: 0px 2px 10px 0px rgba(244, 103, 0, 0.05);
+        }
 
-  color: var(--light-text-active, #fff);
-  text-align: center;
-  /* GG/16px/Med/Button Text */
-  font-family: Roboto;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-}
+        h3 {
+            color: var(--main--text, #002352);
+            text-align: center;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-weight: 700;
+            line-height: 130%;
+        }
 
-.login-with {
-  margin-top: 30px;
-  color: var(--light-transparent-greyscale-65, rgba(0, 0, 0, 0.65));
-  text-align: center;
-  font-family: Roboto;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  letter-spacing: 0.192px;
-}
+        .input {
+            display: block;
+            /* width: 400px;
+            height: 20px; */
+            /* padding: 16px 15px; */
+            margin: auto;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 0%);
+        }
 
-.otherway {
-  flex-shrink: 0;
-  border-radius: 24px;
-  background: var(--light-greyscale-greyscale-300, #e5e6ec);
+        label {
+            display: block;
+            padding-bottom: 5px;
+            color: var(--light-greyscale-greyscale-900);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 22px;
+        }
 
-  color: var(--light-greyscale-greyscale-900, #000);
-  font-family: Roboto;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  text-align: center;
-  padding: 13.02px 55px 13px 55px;
-}
+        .data-input {
+            display: flex;
+            border: #F7F7F7;
+            width: 400px;
+            height: 18px;
+            padding: 16px 15px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+            gap: 10px;
+            flex-shrink: 0;
+            border-radius: 8px;
+            background: #F7F7F7;
+            color: var(--light-greyscale-greyscale-900);
+        }
 
-.footer {
-  margin-top: 51px;
-  text-align: center;
-}
+        span,
+        a {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .login-button {
+            margin: 30px auto 10px auto;
+            display: flex;
+            width: 35%;
+            height: 12px;
+            padding: 15px 15px;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+            border-radius: 40px;
+            background: var(--Green, #00bf6f);
+            box-shadow: 0px 2px 10px 0px rgba(244, 103, 0, 0.05);
+            color: var(--light-text-active, #fff);
+            text-align: center;
+            font-family: Roboto;
+            font-size: 18px;
+        }
+        .login-button:hover{
+            background: #E5E6Ec;
+            color: var(--light-text-active, rgb(85, 83, 83));
+        }
+        .icon{
+            text-align: center;
+        }
+        .icon a{
+            margin: 5px;
+        }
+        img{
+            padding: 5px;
+            width: 30px;
+            height: 30px;
+            box-shadow: 0px 12px 40px 0px rgba(0, 0, 0, 0.16);
+            border-radius: 50%;
+            background: var(--light-greyscale-greyscale-200, #fff);
+            text-align: center;
+        }
+        .footer{
+            margin-top: 10px;
+            color:  var(--main--text, #002352);
+            text-align: center;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-weight: 400;
+        }
+        .footer a{
+            color: calc(--Link, #1890ff);
+            font-style: normal;
+            text-decoration: none;
+        }
 </style>
